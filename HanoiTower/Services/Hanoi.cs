@@ -12,6 +12,10 @@ namespace HanoiTower.Services
         private Stack<int> Tower3 { get; set; } = new Stack<int>();
         private Dictionary<int, string> printDictonary = new Dictionary<int, string>();
 
+        /// <summary>
+        /// Constructer
+        /// </summary>
+        /// <param name="numberOfDiscs"></param>
         public Hanoi(int numberOfDiscs)
         {
             FillUpPrintMap(numberOfDiscs);
