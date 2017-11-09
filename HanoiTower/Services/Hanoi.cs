@@ -14,7 +14,7 @@ namespace HanoiTower.Services
 
         public Hanoi(int numberOfDiscs)
         {
-            fillUpPrintMap(numberOfDiscs);
+            FillUpPrintMap(numberOfDiscs);
             this.numberOfDiscs = numberOfDiscs;
             for (int i = numberOfDiscs; i > 0; i--)
             {
@@ -92,7 +92,11 @@ namespace HanoiTower.Services
             Console.WriteLine();
         }
 
-        private void fillUpPrintMap(int numberOfDiscs)
+        /// <summary>
+        /// Create a printing map.
+        /// </summary>
+        /// <param name="numberOfDiscs"></param>
+        private void FillUpPrintMap(int numberOfDiscs)
         {
             for (int i = 1; i <= numberOfDiscs; i++)
             {
