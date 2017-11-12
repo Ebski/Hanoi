@@ -18,8 +18,9 @@ namespace HanoiTower.Services
         /// <param name="numberOfDiscs"></param>
         public Hanoi(int MaxHeight)
         {
-            FillUpPrintMap(MaxHeight);
             this.MaxHeight = MaxHeight;
+            FillUpPrintMap();
+            
             for (int i = MaxHeight; i > 0; i--)
             {
                 Tower1.Push(i);
@@ -56,39 +57,35 @@ namespace HanoiTower.Services
 
         public void PrintTower(Stack<int> tower, string towerName,int xPos, int yPos)
         {
-            int numberOfEmptySpaces = 0;
-            string emptySpace = "";
-
-            Console.SetCursorPosition(xPos, yPos);
+            Console.SetCursorPosition(xPos - (MaxHeight / 2), yPos);
             Console.WriteLine(towerName);
-            foreach (int i in tower)
-            {
-                numberOfEmptySpaces = MaxHeight - i;
 
-                for (int j = 0; j < numberOfEmptySpaces; j++)
+            for (int i = MaxHeight; i >= 1; i--)
+            {
+                Console.SetCursorPosition(xPos, yPos + i);
+                Console.WriteLine("|");
+                if (tower.Contains(i))
                 {
-                    emptySpace += " ";
+                    Console.SetCursorPosition(xPos - i, yPos + i);
+                    Console.WriteLine(printDictonary[i]);
+                    Console.SetCursorPosition(xPos + 1, yPos + i);
+                    Console.WriteLine(printDictonary[i]);
                 }
-                Console.SetCursorPosition(xPos, yPos + 1);
-                Console.WriteLine(emptySpace + printDictonary[i] + emptySpace);
-                emptySpace = "";
-                yPos++;
             }
-            Console.WriteLine();
+            yPos++;
         }
 
         /// <summary>
         /// Create a printing map.
         /// </summary>
         /// <param name="numberOfDiscs"></param>
-        private void FillUpPrintMap(int numberOfDiscs)
+        private void FillUpPrintMap()
         {
-            for (int i = 1; i <= numberOfDiscs; i++)
+            for (int i = 1; i <= MaxHeight; i++)
             {
-                string printString = "|";
+                string printString = "";
                 for (int j = 0; j < i; j++)
                 {
-                    printString = "-" + printString;
                     printString += "-";
                 }
                 printDictonary.Add(i, printString);
