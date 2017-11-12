@@ -118,7 +118,6 @@ namespace HanoiTower.Services
                     int bPos = MaxHeight - brickIndex;
                     // Adjust the printing line to write infront of the base tower line.
                     Console.SetCursorPosition(xPos - i, yPos + bPos);
-                    //Console.SetCursorPosition(xPos - i, yPos + i);
                     // Print out the rings infront of the base tower line.
                     Console.WriteLine(printDictonary[i]);
                     // Adjust the printing line to write after the base tower line.
