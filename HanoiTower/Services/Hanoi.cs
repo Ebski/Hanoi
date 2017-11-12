@@ -103,6 +103,8 @@ namespace HanoiTower.Services
             // Set where in the Console Window the printing should happend.
             Console.SetCursorPosition(xPos - (MaxHeight / 2), yPos);
             Console.WriteLine(towerName);
+            // Set initial brick index
+            int brickIndex = 0;
 
             for (int i = MaxHeight; i >= 1; i--)
             {
@@ -112,14 +114,19 @@ namespace HanoiTower.Services
                 // If the tower contains i.
                 if (tower.Contains(i))
                 {
+                    // Adjust height based on number of bricks
+                    int bPos = MaxHeight - brickIndex;
                     // Adjust the printing line to write infront of the base tower line.
-                    Console.SetCursorPosition(xPos - i, yPos + i);
+                    Console.SetCursorPosition(xPos - i, yPos + bPos);
+                    //Console.SetCursorPosition(xPos - i, yPos + i);
                     // Print out the rings infront of the base tower line.
                     Console.WriteLine(printDictonary[i]);
                     // Adjust the printing line to write after the base tower line.
-                    Console.SetCursorPosition(xPos + 1, yPos + i);
+                    Console.SetCursorPosition(xPos + 1, yPos + bPos);
                     // Print out the rings after the base tower line.
                     Console.WriteLine(printDictonary[i]);
+                    // Increment brick index
+                    brickIndex++;
                 }
             }
             // Increment y position to print on the next line.
