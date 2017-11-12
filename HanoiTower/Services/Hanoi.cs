@@ -6,7 +6,8 @@ namespace HanoiTower.Services
 {
     public class Hanoi
     {
-        private int numberOfDiscs { get; set; } = 0;
+        private int y = 5;
+        private int MaxHeight { get; set; } = 0;
         private Stack<int> Tower1 { get; set; } = new Stack<int>();
         private Stack<int> Tower2 { get; set; } = new Stack<int>();
         private Stack<int> Tower3 { get; set; } = new Stack<int>();
@@ -16,15 +17,16 @@ namespace HanoiTower.Services
         /// Constructer
         /// </summary>
         /// <param name="numberOfDiscs"></param>
-        public Hanoi(int numberOfDiscs)
+        public Hanoi(int MaxHeight)
         {
-            FillUpPrintMap(numberOfDiscs);
-            this.numberOfDiscs = numberOfDiscs;
-            for (int i = numberOfDiscs; i > 0; i--)
+            FillUpPrintMap(MaxHeight);
+            this.MaxHeight = MaxHeight;
+            for (int i = MaxHeight; i > 0; i--)
             {
                 Tower1.Push(i);
             }
-            SolveHanoi(numberOfDiscs, Tower1, Tower2, Tower3);
+            PrintTowers(Tower1, Tower2, Tower3);
+            SolveHanoi(MaxHeight, Tower1, Tower2, Tower3);
         }
 
         public void SolveHanoi(int numberOfDiscs, Stack<int> fromTower, Stack<int> toTower, Stack<int> otherTower)
@@ -32,66 +34,46 @@ namespace HanoiTower.Services
             if (numberOfDiscs == 1)
             {
                 toTower.Push(fromTower.Pop());
-                PrintTower(fromTower, otherTower, toTower);
+                PrintTowers(fromTower, otherTower, toTower);
                 return;
             }
 
             SolveHanoi(numberOfDiscs - 1, fromTower, otherTower, toTower);
 
             toTower.Push(fromTower.Pop());
-            PrintTower(fromTower, otherTower, toTower);
+            PrintTowers(fromTower, otherTower, toTower);
 
             SolveHanoi(numberOfDiscs - 1, otherTower, toTower, fromTower);
         }
 
-        private void PrintTower(Stack<int> tower1, Stack<int> tower2, Stack<int> tower3)
+        private void PrintTowers(Stack<int> tower1, Stack<int> tower2, Stack<int> tower3)
         {
             System.Threading.Thread.Sleep(1000);
+            PrintTower(tower1, "tower 1", 20, y);
+            PrintTower(tower2, "tower 2", 40, y);
+            PrintTower(tower3, "tower 3", 60, y);
+            y = y + MaxHeight + 2;
+        }
+
+        public void PrintTower(Stack<int> tower, string towerName,int xPos, int yPos)
+        {
             int numberOfEmptySpaces = 0;
             string emptySpace = "";
 
-            Console.WriteLine("tower1");
-            foreach (int i in tower1)
+            Console.SetCursorPosition(xPos, yPos);
+            Console.WriteLine(towerName);
+            foreach (int i in tower)
             {
-                numberOfEmptySpaces = numberOfDiscs - i;
+                numberOfEmptySpaces = MaxHeight - i;
 
                 for (int j = 0; j < numberOfEmptySpaces; j++)
                 {
                     emptySpace += " ";
                 }
-                
+                Console.SetCursorPosition(xPos, yPos + 1);
                 Console.WriteLine(emptySpace + printDictonary[i] + emptySpace);
                 emptySpace = "";
-            }
-            Console.WriteLine();
-
-            Console.WriteLine("tower2");
-            foreach (int i in tower2)
-            {
-                numberOfEmptySpaces = numberOfDiscs - i;
-
-                for (int j = 0; j < numberOfEmptySpaces; j++)
-                {
-                    emptySpace += " ";
-                }
-
-                Console.WriteLine(emptySpace + printDictonary[i] + emptySpace);
-                emptySpace = "";
-            }
-            Console.WriteLine();
-
-            Console.WriteLine("tower 3");
-            foreach (int i in tower3)
-            {
-                numberOfEmptySpaces = numberOfDiscs - i;
-
-                for (int j = 0; j < numberOfEmptySpaces; j++)
-                {
-                    emptySpace += " ";
-                }
-
-                Console.WriteLine(emptySpace + printDictonary[i] + emptySpace);
-                emptySpace = "";
+                yPos++;
             }
             Console.WriteLine();
         }
