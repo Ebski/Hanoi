@@ -34,14 +34,14 @@ namespace HanoiTower.Services
             if (numberOfDiscs == 1)
             {
                 toTower.Push(fromTower.Pop());
-                PrintTowers(fromTower, otherTower, toTower);
+                PrintTowers(Tower1, Tower2, Tower3);
                 return;
             }
 
             SolveHanoi(numberOfDiscs - 1, fromTower, otherTower, toTower);
 
             toTower.Push(fromTower.Pop());
-            PrintTowers(fromTower, otherTower, toTower);
+            PrintTowers(Tower1, Tower2, Tower3);
 
             SolveHanoi(numberOfDiscs - 1, otherTower, toTower, fromTower);
         }
