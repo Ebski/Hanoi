@@ -1,74 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HanoiTower.Services
 {
-    public class Hanoi
+    public class Print
     {
-        // Y axis in the console window
-        private int y = 5;
-        // Max height of the towers
-        private int MaxHeight { get; set; } = 0;
-        // The towers
-        private Stack<int> Tower1 { get; set; } = new Stack<int>();
-        private Stack<int> Tower2 { get; set; } = new Stack<int>();
-        private Stack<int> Tower3 { get; set; } = new Stack<int>();
-        // Dictonary used for printing
+        public int MaxHeight { get; set; }
         private Dictionary<int, string> printDictonary = new Dictionary<int, string>();
 
-        /// <summary>
-        /// Constructer
-        /// </summary>
-        /// <param name="numberOfDiscs"></param>
-        public Hanoi(int MaxHeight)
+        public Print(int height)
         {
-            // Sets max height variable
-            this.MaxHeight = MaxHeight;
-            // Fill up the Dictonary
+            MaxHeight = height;
             FillUpPrintMap();
-            
-            // Add circles to the first tower.
-            for (int i = MaxHeight; i > 0; i--)
-            {
-                Tower1.Push(i);
-            }
-
-            // Print towers before algorithm starts
-            PrintTowers(Tower1, Tower2, Tower3);
-
-            // Run the algorithm.
-            SolveHanoi(MaxHeight, Tower1, Tower2, Tower3);
-        }
-
-        /// <summary>
-        /// Recursive Alogorithm to solve Tower of Hanoi
-        /// </summary>
-        /// <param name="numberOfDiscs"></param>
-        /// <param name="fromTower"></param>
-        /// <param name="toTower"></param>
-        /// <param name="otherTower"></param>
-        public void SolveHanoi(int height, Stack<int> fromTower, Stack<int> toTower, Stack<int> otherTower)
-        {
-            // Devide the problem into smaller bits. When the height of the towers are 1, we can't devide it more.
-            if (height == 1)
-            {
-                // Move ring from fromTower to toTower.
-                toTower.Push(fromTower.Pop());
-                // Print how the towers look now.
-                PrintTowers(Tower1, Tower2, Tower3);
-                return;
-            }
-
-            // Call the algorithm again. This time the otherTower is used as the toTower parameter.
-            SolveHanoi(height - 1, fromTower, otherTower, toTower);
-
-            // Move ring from the fromTower to toTower
-            toTower.Push(fromTower.Pop());
-            //Print how the towers look now.
-            PrintTowers(Tower1, Tower2, Tower3);
-
-            // Call the algorithm again. This time The otherTower is used as the from tower variable. and the fromTower is the otherTower variable.
-            SolveHanoi(height - 1, otherTower, toTower, fromTower);
         }
 
         /// <summary>
@@ -77,7 +21,7 @@ namespace HanoiTower.Services
         /// <param name="tower1"></param>
         /// <param name="tower2"></param>
         /// <param name="tower3"></param>
-        private void PrintTowers(Stack<int> tower1, Stack<int> tower2, Stack<int> tower3)
+        public int PrintTowers(Stack<int> tower1, Stack<int> tower2, Stack<int> tower3, int y)
         {
             // Wait 1 second. Done so movements can be seen.
             System.Threading.Thread.Sleep(1000);
@@ -88,7 +32,7 @@ namespace HanoiTower.Services
             // Print tower 3.
             PrintTower(tower3, "tower 3", 60, y);
             // Adjust y axis in the console window, to not overwrite previoisly printed towers.
-            y = y + MaxHeight + 2;
+            return  y + MaxHeight + 2;
         }
 
         /// <summary>
@@ -98,7 +42,7 @@ namespace HanoiTower.Services
         /// <param name="towerName"></param>
         /// <param name="xPos"></param>
         /// <param name="yPos"></param>
-        public void PrintTower(Stack<int> tower, string towerName,int xPos, int yPos)
+        public void PrintTower(Stack<int> tower, string towerName, int xPos, int yPos)
         {
             // Set where in the Console Window the printing should happend.
             Console.SetCursorPosition(xPos - (MaxHeight / 2), yPos);
@@ -148,6 +92,6 @@ namespace HanoiTower.Services
                 printDictonary.Add(i, printString);
             }
         }
-        
+
     }
 }
