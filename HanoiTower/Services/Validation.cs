@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HanoiTower.Services
+﻿namespace HanoiTower.Services
 {
     public class Validation
     {
@@ -14,6 +10,11 @@ namespace HanoiTower.Services
         public bool ValidateChoice(string s)
         {
             return s == "1" || s == "2";
+        }
+
+        public bool ValidateMoveInput(string s)
+        {
+            return s == "1" || s == "2" || s == "3";
         }
     }
 }

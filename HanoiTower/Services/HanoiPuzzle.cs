@@ -7,6 +7,9 @@ namespace HanoiTower.Services
     public class HanoiPuzzle
     {
         Print print;
+        Validation validate;
+        private string errorMessage = "";
+        bool error;
         private int y;
         private int maxHeight;
         private Stack<int> Tower1 { get; set; } = new Stack<int>();
@@ -14,6 +17,8 @@ namespace HanoiTower.Services
         private Stack<int> Tower3 { get; set; } = new Stack<int>();
         public HanoiPuzzle(int height)
         {
+            validate = new Validation();
+            error = false;
             y = 5;
             maxHeight = height;
             print = new Print(maxHeight);
@@ -28,11 +33,24 @@ namespace HanoiTower.Services
             while(Tower3.Count != maxHeight && Tower2.Count != maxHeight)
             {
                 y = print.PrintTowers(Tower1, Tower2, Tower3, y);
-                Console.WriteLine("MOVE");
+                Console.WriteLine("Move from");
                 string move1 = Console.ReadLine();
-                Console.WriteLine("MOVE");
+                Console.WriteLine("Move to");
                 string move2 = Console.ReadLine();
-                Move(move1, move2);
+                if (ValidInput(move1, move2))
+                {
+                    Move(move1, move2);
+                    if (error)
+                    {
+                        Console.WriteLine(errorMessage);
+                        y = y + maxHeight;
+                        error = false;
+                    }
+                } else
+                {
+                    Console.WriteLine(errorMessage);
+                    y = y + maxHeight;
+                }
             }
             y = print.PrintTowers(Tower1, Tower2, Tower3, y);
         }
@@ -42,7 +60,22 @@ namespace HanoiTower.Services
             Stack<int> from = GetTowerFromInput(x);
             Stack<int> to = GetTowerFromInput(y);
 
-            to.Push(from.Pop());
+            if (from.Count != 0)
+            {
+                if (to.Count == 0 ||from.Peek() < to.Peek())
+                {
+                    to.Push(from.Pop());
+                }
+                else
+                {
+                    errorMessage = "Invalid move";
+                    error = true;
+                }
+            } else
+            {
+                errorMessage = "Invalid move";
+                error = true;
+            }
         }
 
         private Stack<int> GetTowerFromInput(string x)
@@ -62,6 +95,21 @@ namespace HanoiTower.Services
                 tower = Tower3;
             }
             return tower;
+        }
+
+        public bool ValidInput(string moveFrom, string moveTo)
+        {
+            if (moveFrom == moveTo)
+            {
+                errorMessage = "Can't move disc to the same tower.";
+                return false;
+            }
+            if (!validate.ValidateMoveInput(moveFrom) || !validate.ValidateMoveInput(moveTo))
+            {
+                errorMessage = "You must choose 1, 2 or 3 for both moves";
+                return false;
+            }
+            return true;
         }
 
     }

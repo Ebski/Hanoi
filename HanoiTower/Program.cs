@@ -12,6 +12,7 @@ namespace HanoiTower
 
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Choose a height for the towers. Value must be between 2 and 10");
                 string height = Console.ReadLine();
                 
@@ -19,6 +20,7 @@ namespace HanoiTower
                 {
                     Console.WriteLine("Press 1 to see a simulazion of how to solve it. Press 2 to try yourself");
                     string choice = Console.ReadLine();
+                    Console.Clear();
 
                     if (v.ValidateChoice(choice))
                     {
@@ -33,8 +35,11 @@ namespace HanoiTower
                     }
                 }
                 Console.WriteLine("\n\n Press Escape to close the program, press any other key to try again");
-                var exit = Console.ReadKey();
-                Console.Clear();
+                ConsoleKey exit = Console.ReadKey().Key;
+                if (exit == ConsoleKey.Escape)
+                {
+                    break;
+                }
             }
         }
     }
